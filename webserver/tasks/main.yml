@@ -1,47 +1,11 @@
 ---
-- name: install apache
+name: install wireshark
+  #hosts: webservers, nfs, db
   remote_user: ec2-user
   become: yes
   become_user: root
-  ansible.builtin.yum:
-    name: "httpd"
-    state: present
-
-- name: install git
-  remote_user: ec2-user
-  become: yes
-  become_user: root
-  ansible.builtin.yum:
-    name: "git"
-    state: present
-
-- name: clone a repo
-  remote_user: ec2-user
-  become: yes
-  become_user: root
-  ansible.builtin.git:
-    repo: https://github.com/Xav368/tooling.git
-    dest: /var/www/html
-    force: yes
-
-- name: copy html content to one level up
-  remote_user: ec2-user
-  become: yes
-  become_user: root
-  command: cp -r /var/www/html/html/ /var/www/
-
-- name: Start service httpd, if not started
-  remote_user: ec2-user
-  become: yes
-  become_user: root
-  ansible.builtin.service:
-    name: httpd
-    state: started
-
-- name: recursively remove /var/www/html/html/ directory
-  remote_user: ec2-user
-  become: yes
-  become_user: root
-  ansible.builtin.file:
-    path: /var/www/html/html
-    state: absent
+  tasks:
+    - name: ensure wireshark is at the latest version
+      yum:
+        name: wireshark
+        state: latest
