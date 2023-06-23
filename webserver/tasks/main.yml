@@ -1,7 +1,7 @@
 ---
 - name: install apache
   remote_user: ec2-user
-  become: true
+  become: yes
   become_user: root
   ansible.builtin.yum:
     name: "httpd"
@@ -9,7 +9,7 @@
 
 - name: install git
   remote_user: ec2-user
-  become: true
+  become: yes
   become_user: root
   ansible.builtin.yum:
     name: "git"
@@ -17,7 +17,7 @@
 
 - name: clone a repo
   remote_user: ec2-user
-  become: true
+  become: yes
   become_user: root
   ansible.builtin.git:
     repo: https://github.com/Xav368/tooling.git
@@ -26,13 +26,13 @@
 
 - name: copy html content to one level up
   remote_user: ec2-user
-  become: true
+  become: yes
   become_user: root
   command: cp -r /var/www/html/html/ /var/www/
 
 - name: Start service httpd, if not started
   remote_user: ec2-user
-  become: true
+  become: yes
   become_user: root
   ansible.builtin.service:
     name: httpd
@@ -40,7 +40,7 @@
 
 - name: recursively remove /var/www/html/html/ directory
   remote_user: ec2-user
-  become: true
+  become: yes
   become_user: root
   ansible.builtin.file:
     path: /var/www/html/html
